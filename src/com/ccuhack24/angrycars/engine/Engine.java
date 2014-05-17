@@ -108,8 +108,8 @@ public class Engine {
 		return grid;
 	}
 	
-	private static class Cell {
-		int team = 0;
+	public static class Cell {
+		public int team = 0;
 		int candidateTeam = 0;
 		double timeToSpread = 0;
 		double timeToLive = 0;
