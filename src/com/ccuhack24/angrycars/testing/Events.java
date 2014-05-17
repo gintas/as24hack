@@ -1,14 +1,29 @@
 package com.ccuhack24.angrycars.testing;
 
+import java.util.Set;
+
 public class Events {
 
-	private TopPlayer maxSpeed;
-	private TopPlayer mostAgressive;
+	private Player maxSpeed;
+	private Player mostAgressive;
 	
-	public void maxSpeed(long speed,Player player)
+	public Player maxSpeed(long speed,Player player)
 	{
-		if(maxSpeed.getValue()<speed)
-			maxSpeed.setValue(speed);
-			maxSpeed.setPlayer(player);
+		if(player!= null && player.getMaxSpeed()<speed){
+			player.setMaxSpeed(speed);
+			maxSpeed=player;}
+		return player;
+	}	
+	public Set<Player> mostAgressive(double rpm, double breaks,Player curentplayer,Set<Player> allplayer)
+	{
+		if(rpm>2700)
+			curentplayer.setAgressivity(curentplayer.getAgressivity()+ rpm-2700);
+		curentplayer.setAgressivity(curentplayer.getAgressivity()+ breaks*1000);	
+		if (mostAgressive.getAgressivity()<curentplayer.getAgressivity())
+			mostAgressive=curentplayer;
+		allplayer.remove(curentplayer);
+		allplayer.add(curentplayer);
+		return allplayer;	
 	}
+	
 }
