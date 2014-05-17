@@ -2,13 +2,23 @@ package com.ccuhack24.cargame.Screens.MapScreen;
 
 import java.util.ArrayList;
 
+import com.ccuhack24.angrycars.engine.Engine.Cell;
+
+import android.R;
 import android.content.Context;
 import android.content.res.Resources.Theme;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Base64;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class PaintableGridView extends View {
 
@@ -20,16 +30,38 @@ public class PaintableGridView extends View {
     private float cellWidth;
     private float cellHeight;
 
+    // dimensions of screen
+    private float screenWidth;
+    private float screenHeight;
+
     // the actual playing field with all the team IDs in each cell
-    private int[][] teamField;
+    private Cell[][] teamField;
+
+    // position of the map
+    float x = 0;
+    float y = 0;
+
+    // map is stored as an image
+    private Bitmap map;
 
     public PaintableGridView(Context context, int screenWidth,
-	    int screenHeight, int[][] field) {
+	    int screenHeight, Cell[][] field, Bitmap mapImg) {
 	super(context);
 	float numberOfCellsX = field.length;
 	float numberOfCellsY = field[0].length;
-	cellWidth = screenWidth / numberOfCellsX;
-	cellHeight = screenHeight / numberOfCellsY;
+
+	this.screenWidth = screenWidth;
+	this.screenHeight = screenHeight;
+
+	map = getResizedBitmap(mapImg, mapImg.getHeight() * 4,
+		mapImg.getWidth() * 4);
+
+	cellWidth = map.getWidth() / numberOfCellsX;
+	cellHeight = map.getHeight() / numberOfCellsY;
+
+	// first center the map
+	x = screenWidth / 2;
+	y = screenHeight / 2;
 
 	teamField = field;
 
@@ -40,35 +72,63 @@ public class PaintableGridView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+	canvas.drawColor(Color.BLUE);//To make background 
+	canvas.drawBitmap(map, x - (map.getWidth() / 2), y
+		- (map.getHeight() / 2), null);
+
 	for (int i = 0; i < teamField.length; i++)
 	    for (int j = 0; j < teamField[0].length; j++) {
 		// get the correct color for the current field based on the team ID
-		int currentTeam = teamField[i][j];
+		int currentTeam = teamField[i][j].team;
 		Paint currentPaint = teamPaints.get(currentTeam);
 
 		// calculate the position of the current field
-		float currentX = i * cellWidth;
-		float currentY = j * cellHeight;
+		float currentX = x - map.getWidth() / 2 + i * cellWidth;
+		float currentY = y - map.getHeight() / 2 + j * cellHeight;
 
 		// now draw the colored rectangle
 		canvas.drawRect(currentX, currentY, currentX + cellWidth,
 			currentY + cellHeight, currentPaint);
 
 	    }
+
 	super.onDraw(canvas);
     }
 
+    public boolean onTouchEvent(MotionEvent event) {
+	int tmpX = (int) event.getX();
+	int tmpY = (int) event.getY();
+
+	x -= (tmpX - screenWidth / 2) / 20;
+	y -= (tmpY - screenHeight / 2) / 20;
+
+	// check if out of bounds
+	if (x > map.getWidth() / 2)
+	    x = map.getWidth() / 2;
+
+	if (y > map.getHeight() / 2)
+	    y = map.getHeight() / 2;
+
+	if (x < screenWidth - map.getWidth() / 2)
+	    x = screenWidth - map.getWidth() / 2;
+
+	if (y < screenHeight - map.getHeight() / 2)
+	    y = screenHeight - map.getHeight() / 2;
+
+	invalidate();
+	return true;
+    }
+
     private void initPaints() {
-	// we have 5 different team colors, all use the same transparency
-	// blue
+	// we have 4 different team colors, all use the same transparency
+	// neutral
 	// red
 	// green
 	// yellow
 	// cyan
 	teamPaints = new ArrayList<Paint>();
 	Paint tmpPaint = new Paint();
-	tmpPaint.setColor(Color.BLUE);
-	tmpPaint.setAlpha(teamPaintAlpha);
+	tmpPaint.setAlpha(0);
 	teamPaints.add(tmpPaint);
 
 	tmpPaint = new Paint();
@@ -92,4 +152,19 @@ public class PaintableGridView extends View {
 	teamPaints.add(tmpPaint);
     }
 
+    public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
+	int width = bm.getWidth();
+	int height = bm.getHeight();
+	float scaleWidth = ((float) newWidth) / width;
+	float scaleHeight = ((float) newHeight) / height;
+	// CREATE A MATRIX FOR THE MANIPULATION
+	Matrix matrix = new Matrix();
+	// RESIZE THE BIT MAP
+	matrix.postScale(scaleWidth, scaleHeight);
+
+	// "RECREATE" THE NEW BITMAP
+	Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height,
+		matrix, false);
+	return resizedBitmap;
+    }
 }
