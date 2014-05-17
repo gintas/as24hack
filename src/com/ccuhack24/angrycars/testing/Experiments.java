@@ -63,7 +63,7 @@ public class Experiments {
 	
 	
 	public static void engineTest() {
-		Engine e = new Engine();
+		Engine e = new Engine(50, 50);
 		e.insertPoint(3, 5, 1);
 		e.insertPoint(8, 3, 2);
 		for (int i = 0; i < 5; i++) {
