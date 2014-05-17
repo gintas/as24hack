@@ -6,16 +6,20 @@ public class Engine {
 	
 	private static final int TIME_TO_LIVE = 2;
 	private static final double TIME_TO_SPREAD = 2.0;
-	private static final int MAX_X = 51;
-	private static final int MAX_Y = 51;
 	private static final double SPREAD_PROBABILITY = 0.1;
 	private static final double DECAY_PROBABILITY = 0.05;
 	
-	Cell[][] grid = new Cell[MAX_Y][MAX_X];
+	private final int maxY;
+	private final int maxX;
 	
-	public Engine() {
-		for (int y = 0; y < MAX_Y; y++) {
-			for (int x = 0; x < MAX_X; x++) {
+	Cell[][] grid;
+	
+	public Engine(int maxY, int maxX) {
+		this.maxY = maxY;
+		this.maxX = maxX;
+		grid = new Cell[maxY][maxX];
+		for (int y = 0; y < maxY; y++) {
+			for (int x = 0; x < maxX; x++) {
 				grid[y][x] = new Cell();
 			}
 		}
@@ -23,8 +27,8 @@ public class Engine {
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (int y = 0; y < MAX_Y; y++) {
-			for (int x = 0; x < MAX_X; x++) {
+		for (int y = 0; y < maxY; y++) {
+			for (int x = 0; x < maxX; x++) {
 				String c = grid[y][x].toString();
 				sb.append(c);
 			}
@@ -39,22 +43,22 @@ public class Engine {
 	}
 	
 	public void step(double dt) {
-		for (int y = 0; y < MAX_Y; y++) {
-			for (int x = 0; x < MAX_X; x++) {
+		for (int y = 0; y < maxY; y++) {
+			for (int x = 0; x < maxX; x++) {
 				decay(y, x);
 			}
 		}
 
-		for (int y = 0; y < MAX_Y; y++) {
-			for (int x = 0; x < MAX_X; x++) {
+		for (int y = 0; y < maxY; y++) {
+			for (int x = 0; x < maxX; x++) {
 				if (grid[y][x].team != 0) {
 					spreadInfluence(y, x);
 				}
 			}
 		}
 
-		for (int y = 0; y < MAX_Y; y++) {
-			for (int x = 0; x < MAX_X; x++) {
+		for (int y = 0; y < maxY; y++) {
+			for (int x = 0; x < maxX; x++) {
 				if (grid[y][x].candidateTeam != 0) {
 					convertCell(y, x);
 				}
@@ -82,7 +86,7 @@ public class Engine {
           for (int dx = -1; dx <= 1; dx++) {
         	  int nx = x + dx;
         	  int ny = y + dy;
-        	  if (nx < 0 || nx >= MAX_X || ny < 0 || ny >= MAX_Y) {
+        	  if (nx < 0 || nx >= maxX || ny < 0 || ny >= maxY) {
         		  continue;
         	  }
         	  if (rand.nextDouble() > SPREAD_PROBABILITY) {
