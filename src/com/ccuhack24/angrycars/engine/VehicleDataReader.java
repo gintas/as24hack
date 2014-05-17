@@ -28,6 +28,13 @@ public class VehicleDataReader {
 			double lat = obj.getDouble("latitude");
 			double longitude = obj.getDouble("longitude");
 			result.add(new Entry(lat, longitude));
+			if (obj.has("GPS_SPEED")) {
+				JSONObject speedO = obj.getJSONObject("GPS_SPEED");
+				long speed = speedO.getLong("1");
+				result.add(new Entry(lat, longitude, speed));
+			} else {
+				result.add(new Entry(lat, longitude));
+			}
 		}
 		Collections.reverse(result);
 		return result;
@@ -81,10 +88,16 @@ public class VehicleDataReader {
 
 		public final double latitude;
 		public final double longitude;
-
+		public final long speed;
+		
 		public Entry(double lat, double longitude) {
+			this(lat, longitude, 0);
+		}
+
+		public Entry(double lat, double longitude, long speed) {
 			this.latitude = lat;
 			this.longitude = longitude;
+			this.speed = speed;
 		}
 	}
 }
