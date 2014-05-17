@@ -64,7 +64,7 @@ public class MapScreen extends Activity {
 			GridPoint team2 = points2.get(i);
 			e.insertPoint(team1.x, team1.y, 1);
 			e.insertPoint(team2.x, team2.y, 2);
-			e.step(0);
+			e.step(1);
 			// TODO: update display and wait here
 		}
     }
