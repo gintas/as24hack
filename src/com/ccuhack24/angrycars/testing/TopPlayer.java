@@ -2,7 +2,7 @@ package com.ccuhack24.angrycars.testing;
 
 public class TopPlayer {
 	private Player player;
-	private long value;
+	private double value;
 	public TopPlayer(Player player, int value) {
 		this.player = player;
 		this.value = value;
@@ -13,10 +13,10 @@ public class TopPlayer {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	public long getValue() {
+	public double getValue() {
 		return value;
 	}
-	public void setValue(long speed) {
+	public void setValue(double speed) {
 		this.value = speed;
 	} 
 }
