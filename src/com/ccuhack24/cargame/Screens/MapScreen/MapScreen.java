@@ -52,7 +52,7 @@ public class MapScreen extends Activity {
 	}
     }
 
-    private void readTrack() {
+    private Engine readTrack() {
 	List<Entry> car1 = readTrackEntries(R.raw.car1);
 	List<Entry> car2 = readTrackEntries(R.raw.car2);
 
@@ -66,7 +66,7 @@ public class MapScreen extends Activity {
 		50);
 
 	Engine e = new Engine(51, 51);
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 100; i++) {
 	    GridPoint team1 = points1.get(i);
 	    GridPoint team2 = points2.get(i);
 	    e.insertPoint(team1.x, team1.y, 1);
@@ -74,6 +74,7 @@ public class MapScreen extends Activity {
 	    e.step(1);
 	    // TODO: update display and wait here
 	}
+	return e;
     }
 
     @Override
@@ -92,8 +93,9 @@ public class MapScreen extends Activity {
 
 	// we also give the playing field matrix we get from the engine
 	// the playing field is a 2-dimensional array which has the value of the team in each cell
-	engine = new com.ccuhack24.angrycars.engine.Engine(50, 50);
+	engine = readTrack();
 	Cell[][] grid = engine.getGrid();
+	
 
 	/*
 	int[][] theField = new int[17][17];
