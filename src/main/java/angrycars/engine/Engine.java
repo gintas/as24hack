@@ -8,6 +8,7 @@ public class Engine {
 	private static final int MAX_X = 10;
 	private static final int MAX_Y = 10;
 	private static final double SPREAD_PROBABILITY = 0.3;
+	private static final double DECAY_PROBABILITY = 0.05;
 	
 	Cell[][] grid = new Cell[MAX_Y][MAX_X];
 	
@@ -49,6 +50,12 @@ public class Engine {
 	public void step(double dt) {
 		for (int y = 0; y < MAX_Y; y++) {
 			for (int x = 0; x < MAX_X; x++) {
+				decay(y, x);
+			}
+		}
+
+		for (int y = 0; y < MAX_Y; y++) {
+			for (int x = 0; x < MAX_X; x++) {
 				if (grid[y][x].team != 0) {
 					spreadInfluence(y, x);
 				}
@@ -64,6 +71,14 @@ public class Engine {
 		}
 	}
 	
+	private void decay(int y, int x) {
+		if (grid[y][x].team != 0) {
+			if (rand.nextDouble() < DECAY_PROBABILITY) {
+				grid[y][x].team = 0;
+			}
+		}
+	}
+
 	private Random rand = new Random(123);
 	
 	private void spreadInfluence(int y, int x) {
