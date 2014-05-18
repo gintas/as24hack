@@ -3,11 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MapScreen" >
-    
-    <RelativeLayout
-        android:id="@+id/mapScreen_grid"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-    </RelativeLayout>
 
 </RelativeLayout>
