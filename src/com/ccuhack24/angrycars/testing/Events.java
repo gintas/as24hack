@@ -2,6 +2,7 @@ package com.ccuhack24.angrycars.testing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Events {
 	}
 
 	private Player maxSpeed;
-	private Player mostAgressive;
+	private Player mostAggressive;
 	
 	public Set<Player> fireEvents(Entry entry, Set<Player> players) {
 		if (maxSpeed(entry.speed, entry.player) !=null) {
@@ -34,6 +35,7 @@ public class Events {
 			players.add(maxSpeed(entry.speed, entry.player));
 			eventQueue.add("New max speed: " + entry.speed + " by player " + entry.player.getName());
 		}
+		mostAgressive(entry);
 		
 		return players;
 	}
@@ -49,23 +51,32 @@ public class Events {
 
 	}	
 	
-	private Set<Player> mostAgressive(double rpm, double breaks,Player curentplayer,Set<Player> allplayer)
-	{
-		if(rpm>2700)
-			curentplayer.setAgressivity(curentplayer.getAgressivity()+ rpm-2700);
-		curentplayer.setAgressivity(curentplayer.getAgressivity()+ breaks*1000);	
-		if (mostAgressive.getAgressivity()<curentplayer.getAgressivity())
-			mostAgressive=curentplayer;
-		allplayer.remove(curentplayer);
-		allplayer.add(curentplayer);
+	private void mostAgressive(Entry entry) {
+		if (entry.player == null) {
+			return;
+		}
+		
+		if (entry.rpm>2700) {
+			entry.player.setAgressivity(entry.player.getAgressivity()+ entry.rpm - 2700);
+		}	
+
+
+		if (mostAggressive.getAgressivity() < currentplayer.getAgressivity()) {
+			mostAggressive=currentplayer;
+		}
+		
+		allplayer.remove(currentplayer);
+		allplayer.add(currentplayer);
 		return allplayer;	
 	}
 	
-	public static List<String> mostAgressiveRanking() {
+	public static List<String> mostAggressiveRanking() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("A");
 		list.add("B");
 		list.add("C");
+		list.add("D");
+		list.add("E");
 		return list;
 	}
 	
