@@ -24,20 +24,24 @@ public class Events {
 	private Player maxSpeed;
 	private Player mostAgressive;
 	
-	public void fireEvents(Entry entry) {
-		if (maxSpeed(entry.speed, entry.player)) {
-			eventQueue.add("Max speed");
+	public Set<Player> fireEvents(Entry entry, Set<Player> players) {
+		if (maxSpeed(entry.speed, entry.player) !=null) {
+			players.remove(maxSpeed(entry.speed, entry.player));
+			players.add(maxSpeed(entry.speed, entry.player));
+			eventQueue.add("New max speed: " + entry.speed + " by player " + entry.player.getName());
 		}
+		return players;
 	}
 	
-	private boolean maxSpeed(double speed, Player player)
+	private Player maxSpeed(double speed, Player player)
 	{
 		if (player!= null && player.getMaxSpeed() < speed) {
 			player.setMaxSpeed(speed);
 			maxSpeed=player;
-			return true;
+			return player;
 		}
-		return false;
+		return null;
+
 	}	
 	
 	public Set<Player> mostAgressive(double rpm, double breaks,Player curentplayer,Set<Player> allplayer)

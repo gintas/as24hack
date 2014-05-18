@@ -2,8 +2,10 @@ package com.ccuhack24.angrycars.engine;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.json.JSONException;
 
@@ -12,6 +14,7 @@ import android.content.res.Resources;
 import com.ccuhack24.angrycars.engine.Engine.Cell;
 import com.ccuhack24.angrycars.engine.VehicleDataReader.Entry;
 import com.ccuhack24.angrycars.testing.Events;
+import com.ccuhack24.angrycars.testing.Player;
 
 public class GridUpdater {
 
@@ -23,6 +26,7 @@ public class GridUpdater {
 	int t = 0;
 	private Engine engine;
 	private Events events = new Events();
+	private Set<Player> players = new HashSet<Player>();
 
 	public GridUpdater(Resources resources) {
 		this.resources = resources;
@@ -36,9 +40,12 @@ public class GridUpdater {
 		s.close();
 
 		List<Entry> entries;
+		Player player = new Player ("" + resourceId, "" + resourceId, 0, 0);
+		players.add(player);
+		
 		try {
 		    VehicleDataReader r = new VehicleDataReader(data);
-		    entries = r.parse(resourceId);
+		    entries = r.parse(player);
 		} catch (JSONException e) {
 		    throw new IllegalStateException(e);
 		}
@@ -85,7 +92,7 @@ public class GridUpdater {
 				Entry entry = entryList.get(t);
 				GridPoint p = entryPosition(entry);
 				engine.insertPoint(p.y, p.x, i+1);
-				events.fireEvents(entry);
+				players = events.fireEvents(entry, players);
 			}
 		}
 		t++;

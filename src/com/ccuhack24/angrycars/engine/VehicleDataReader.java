@@ -20,9 +20,8 @@ public class VehicleDataReader {
     	this.json = new JSONArray(jsonData);
     }
 	
-	public List<Entry> parse(int resourceID) throws JSONException {
+	public List<Entry> parse(Player player) throws JSONException {
 		int len = json.length();
-		Player player = new Player ("" + resourceID, "" + resourceID, 0, 0);
 
 		List<Entry> result = new ArrayList<Entry>();
 		for (int i = 0; i < len; i++) {
