@@ -7,7 +7,7 @@
     <string name="action_rank">Rankings</string>
     <string name="hello_world">Hello world!</string>
     <string name="anyStringValue">xxx</string>
-    <string name="ranking_screen_good_header">Gelbe Engel</string>
-    <string name="ranking_screen_bad_header">Rote Teufel</string>
+    <string name="ranking_screen_good_header">Gelbe Engel (brav)</string>
+    <string name="ranking_screen_bad_header">Rote Teufel (aggresiv)</string>
 
 </resources>

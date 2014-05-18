@@ -58,8 +58,8 @@ public class PaintableGridView extends View {
 	this.screenWidth = screenWidth;
 	this.screenHeight = screenHeight;
 
-	map = getResizedBitmap(mapImg, mapImg.getHeight() * 4,
-		mapImg.getWidth() * 4);
+	map = getResizedBitmap(mapImg, (int) (mapImg.getHeight() * 3.5),
+		(int) (mapImg.getWidth() * 3.5));
 
 	cellWidth = map.getWidth() / numberOfCellsX;
 	cellHeight = map.getHeight() / numberOfCellsY;
@@ -134,7 +134,7 @@ public class PaintableGridView extends View {
 	    y = screenHeight - map.getHeight() / 2;
 
 	invalidate();
-	
+
 	return true;
     }
 
