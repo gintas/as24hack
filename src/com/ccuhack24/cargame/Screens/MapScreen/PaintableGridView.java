@@ -138,8 +138,7 @@ public class PaintableGridView extends View {
 			// note: x and y are swapped
 			float currentX = x - map.getWidth() / 2 + pos.y * cellWidth;
 			float currentY = y - map.getHeight() / 2 + pos.x * cellHeight;
-			canvas.drawRect(currentX, currentY, currentX + cellWidth,
-					currentY + cellHeight, markerPaint);
+			canvas.drawCircle(currentX + cellWidth/2, currentY + cellHeight/2, cellWidth/2, markerPaint);
 		}
 
 		super.onDraw(canvas);
