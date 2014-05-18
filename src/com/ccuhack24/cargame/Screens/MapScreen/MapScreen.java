@@ -1,6 +1,7 @@
 package com.ccuhack24.cargame.Screens.MapScreen;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
@@ -63,20 +65,32 @@ public class MapScreen extends Activity {
 	Rectangle bounds2 = VehicleDataReader.findBounds(car2);
 	bounds.expand(bounds2);
 
-	List<GridPoint> points1 = VehicleDataReader.normalize(car1, bounds, 50,
+	final List<GridPoint> points1 = VehicleDataReader.normalize(car1, bounds, 50,
 		50);
-	List<GridPoint> points2 = VehicleDataReader.normalize(car2, bounds, 50,
+	final List<GridPoint> points2 = VehicleDataReader.normalize(car2, bounds, 50,
 		50);
 
-	Engine e = new Engine(51, 51);
-	for (int i = 0; i < 100; i++) {
-	    GridPoint team1 = points1.get(i);
-	    GridPoint team2 = points2.get(i);
-	    e.insertPoint(team1.x, team1.y, 1);
-	    e.insertPoint(team2.x, team2.y, 2);
-	    e.step(1);
-	    // TODO: update display and wait here
-	}
+	final Engine e = new Engine(51, 51);
+	Thread thread = new Thread(new Runnable() {
+		public void run() {
+			for (int i = 0; i < 100; i++) {
+			    GridPoint team1 = points1.get(i);
+			    GridPoint team2 = points2.get(i);
+			    e.insertPoint(team1.x, team1.y, 1);
+			    e.insertPoint(team2.x, team2.y, 2);
+			    e.step(1);
+			    try {
+					Thread.sleep(200);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			    // TODO: update display and wait here
+			}
+		}
+	});
+	thread.start();
+	
 	return e;
     }
 
