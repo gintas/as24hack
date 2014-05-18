@@ -43,8 +43,12 @@ public class VehicleDataReader {
 			if (obj.has("MDI_OBD_MILEAGE")) {
 				JSONObject mileage0 = obj.getJSONObject("MDI_OBD_MILEAGE");
 				long mileage = mileage0.getLong("1");
-				Log.i("mileage", String.valueOf(mileage));
 				entry.mileage = mileage;
+			}
+			if (obj.has("MDI_OBD_RPM")) {
+				JSONObject rpm0 = obj.getJSONObject("MDI_OBD_RPM");
+				long rpm = rpm0.getLong("1");
+				entry.rpm = rpm;
 			}
 			if (obj.has("DIO_IGNITION")) {
 				boolean ignition = obj.getBoolean("DIO_IGNITION");
@@ -109,6 +113,7 @@ public class VehicleDataReader {
 		public final double longitude;
 		public double speed = 0;
 		public boolean ignition = false;
+		public long rpm = 0;
 		
 		public void setTimestamp(String s) {
 			timestamp = Calendar.getInstance();
