@@ -20,8 +20,10 @@ public class VehicleDataReader {
     	this.json = new JSONArray(jsonData);
     }
 	
-	public List<Entry> parse() throws JSONException {
+	public List<Entry> parse(int resourceID) throws JSONException {
 		int len = json.length();
+		Player player = new Player ("" + resourceID, "" + resourceID, 0, 0);
+
 		List<Entry> result = new ArrayList<Entry>();
 		for (int i = 0; i < len; i++) {
 			JSONObject obj = json.getJSONObject(i);
@@ -49,7 +51,7 @@ public class VehicleDataReader {
 				boolean ignition = obj.getBoolean("DIO_IGNITION");
 				entry.ignition = ignition;
 			}
-			
+			entry.player = player;
 			result.add(entry);
 		}
 		Collections.reverse(result);

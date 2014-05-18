@@ -4,10 +4,10 @@ import java.util.Random;
 
 public class Engine {
 	
-	private static final int TIME_TO_LIVE = 2;
+	private static final int TIME_TO_LIVE = 10;
 	private static final double TIME_TO_SPREAD = 2.0;
 	private static final double SPREAD_PROBABILITY = 0.2;
-	private static final double DECAY_PROBABILITY = 0.01;
+	private static final double DECAY_PROBABILITY = 0.0;
 	
 	private final int maxY;
 	private final int maxX;

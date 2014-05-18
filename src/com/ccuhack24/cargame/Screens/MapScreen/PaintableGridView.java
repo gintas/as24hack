@@ -19,7 +19,8 @@ import com.ccuhack24.cargame.R;
 
 public class PaintableGridView extends View {
 
-    // transparency of all our colors
+    private static final int INTERVAL = 500;
+	// transparency of all our colors
     private int teamPaintAlpha = 120;
     public ArrayList<Paint> teamPaints;
 
@@ -87,9 +88,7 @@ public class PaintableGridView extends View {
 	};
 
 	updateUITimer = new Timer();
-
-	// don't start the timer immediately, since we want to keep the first alpha for testing
-	updateUITimer.scheduleAtFixedRate(updateUItask, 500, 200);
+	updateUITimer.scheduleAtFixedRate(updateUItask, INTERVAL, INTERVAL);
     }
 
     @Override
