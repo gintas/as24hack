@@ -1,6 +1,7 @@
 package com.ccuhack24.cargame.Screens.MapScreen;
 
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,11 +11,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
 import com.ccuhack24.angrycars.engine.GridUpdater;
+import com.ccuhack24.angrycars.testing.Events;
 import com.ccuhack24.cargame.R;
 
 public class PaintableGridView extends View {
@@ -47,7 +51,7 @@ public class PaintableGridView extends View {
     // map is stored as an image
     private Bitmap map;
 
-    public PaintableGridView(Context context, int screenWidth,
+    public PaintableGridView(final Context context, int screenWidth,
 	    int screenHeight, Bitmap mapImg) {
 	super(context);
 	
@@ -93,6 +97,12 @@ public class PaintableGridView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+	Queue<String> queue = Events.getEventString();
+	while(!queue.isEmpty()){
+		Toast toast = Toast.makeText(getContext(), queue.poll(), Toast.LENGTH_LONG);
+		toast.show();	    		
+	}
+    	
 	canvas.drawColor(Color.BLUE);//To make background 
 	
 	canvas.drawBitmap(map, x - (map.getWidth() / 2), y
