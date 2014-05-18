@@ -1,12 +1,17 @@
 package com.ccuhack24.angrycars.engine;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
+
+import com.ccuhack24.angrycars.testing.Player;
 
 public class VehicleDataReader {
     private final JSONArray json;
@@ -15,8 +20,9 @@ public class VehicleDataReader {
     	this.json = new JSONArray(jsonData);
     }
 	
-	public List<Entry> parse() throws JSONException {
+	public List<Entry> parse(Player player) throws JSONException {
 		int len = json.length();
+
 		List<Entry> result = new ArrayList<Entry>();
 		for (int i = 0; i < len; i++) {
 			JSONObject obj = json.getJSONObject(i);
@@ -34,10 +40,17 @@ public class VehicleDataReader {
 				long speed = speedO.getLong("1");
 				entry.speed = speed;
 			}
+			if (obj.has("MDI_OBD_MILEAGE")) {
+				JSONObject mileage0 = obj.getJSONObject("MDI_OBD_MILEAGE");
+				long mileage = mileage0.getLong("1");
+				Log.i("mileage", String.valueOf(mileage));
+				entry.mileage = mileage;
+			}
 			if (obj.has("DIO_IGNITION")) {
 				boolean ignition = obj.getBoolean("DIO_IGNITION");
 				entry.ignition = ignition;
 			}
+			entry.player = player;
 			result.add(entry);
 		}
 		Collections.reverse(result);
@@ -89,14 +102,27 @@ public class VehicleDataReader {
 	}
 
 	public static class Entry {
-		public final String timestamp;
+		public Player player;
+		public Calendar timestamp;
+		public long mileage = 0;
 		public final double latitude;
 		public final double longitude;
 		public double speed = 0;
 		public boolean ignition = false;
 		
+		public void setTimestamp(String s) {
+			timestamp = Calendar.getInstance();
+			timestamp.set(
+					Integer.parseInt(s.substring(0,4)), // year 
+					Integer.parseInt(s.substring(5,7)), // month 
+					Integer.parseInt(s.substring(8,10)),  // day
+					Integer.parseInt(s.substring(11,13)), // hour 
+					Integer.parseInt(s.substring(14,16)),  // minute
+					Integer.parseInt(s.substring(17,19))); //second
+		}
+
 		public Entry(String timestamp, double lat, double longitude) {
-			this.timestamp = timestamp;
+			setTimestamp(timestamp);
 			this.latitude = lat;
 			this.longitude = longitude;
 		}		

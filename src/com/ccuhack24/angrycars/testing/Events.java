@@ -1,21 +1,49 @@
 package com.ccuhack24.angrycars.testing;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
+import android.util.Log;
+
+import com.ccuhack24.angrycars.engine.VehicleDataReader.Entry;
 
 public class Events {
+
+	private static BlockingQueue<String> eventQueue = new ArrayBlockingQueue<String>(500);
+	
+	public static Queue<String> getEventString(){
+		return eventQueue;
+	}
+
+	public static void addEventString(String newEvent){
+		eventQueue.add(newEvent);
+	}
 
 	private Player maxSpeed;
 	private Player mostAgressive;
 	
-	public Player maxSpeed(long speed,Player player)
+	public Set<Player> fireEvents(Entry entry, Set<Player> players) {
+		if (maxSpeed(entry.speed, entry.player) !=null) {
+			players.remove(maxSpeed(entry.speed, entry.player));
+			players.add(maxSpeed(entry.speed, entry.player));
+			eventQueue.add("New max speed: " + entry.speed + " by player " + entry.player.getName());
+		}
+		return players;
+	}
+	
+	private Player maxSpeed(double speed, Player player)
 	{
-		if(player!= null && player.getMaxSpeed()<speed){
+		if (player!= null && player.getMaxSpeed() < speed) {
 			player.setMaxSpeed(speed);
-			maxSpeed=player;}
-		return player;
+			maxSpeed=player;
+			return player;
+		}
+		return null;
+
 	}	
+	
 	public Set<Player> mostAgressive(double rpm, double breaks,Player curentplayer,Set<Player> allplayer)
 	{
 		if(rpm>2700)
@@ -26,15 +54,6 @@ public class Events {
 		allplayer.remove(curentplayer);
 		allplayer.add(curentplayer);
 		return allplayer;	
-	}
-
-	private Date parseTimeStamp(String s)
-	{	
-		Date date = new Date(Integer.parseInt(s.substring(0,3)), 
-				Integer.parseInt(s.substring(5,6)), Integer.parseInt(s.substring(8,9)), 
-				Integer.parseInt(s.substring(11,12)), Integer.parseInt(s.substring(14,15)), 
-				Integer.parseInt(s.substring(17,18)));
-		return date;			
 	}
 	
 }

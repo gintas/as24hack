@@ -6,6 +6,7 @@ public class Player {
 	private final String id;
 	private double maxSpeed;
 	private double agressivity;
+	private double gruneWelleMileage;
 	
 	public Player(String name, String id, double maxSpeed, double agressivity) {
 		super();
