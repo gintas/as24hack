@@ -38,6 +38,11 @@ public class VehicleDataReader {
 				long speed = speedO.getLong("1");
 				entry.speed = speed;
 			}
+			if (obj.has("MDI_OBD_MILEAGE")) {
+				JSONObject mileage0 = obj.getJSONObject("MDI_OBD_MILEAGE");
+				long mileage = mileage0.getLong("1");
+				entry.mileage = mileage;
+			}
 			if (obj.has("DIO_IGNITION")) {
 				boolean ignition = obj.getBoolean("DIO_IGNITION");
 				entry.ignition = ignition;
@@ -94,6 +99,7 @@ public class VehicleDataReader {
 
 	public static class Entry {
 		public Calendar timestamp;
+		public long mileage = 0;
 		public final double latitude;
 		public final double longitude;
 		public double speed = 0;
