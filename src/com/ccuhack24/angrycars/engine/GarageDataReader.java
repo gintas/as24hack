@@ -46,7 +46,7 @@ public class GarageDataReader {
 				if (!capturedGarages.containsKey(garage.id)
 						|| capturedGarages.get(garage.id).getId()
 								.equals(player.getId())) {
-					Events.addEventString("Player " + player + " captures "
+					Events.addEventString("Player " + player.getName() + " captures "
 							+ garage.name);
 					capturedGarages.put(garage.id, player);
 					if (scores.containsKey(player))
@@ -60,7 +60,7 @@ public class GarageDataReader {
 				// TODO ...
 				String s = "Scores:";
 				for (Player person : scores.keySet()) {
-					s += "\n" + person + ": " + scores.get(person);
+					s += "\n" + person.getName() + ": " + scores.get(person);
 				}
 				Events.addEventString(s);
 			}
