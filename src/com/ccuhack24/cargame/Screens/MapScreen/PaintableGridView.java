@@ -1,6 +1,8 @@
 package com.ccuhack24.cargame.Screens.MapScreen;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
 
@@ -23,7 +25,7 @@ import android.widget.Toast;
 public class PaintableGridView extends View {
 
     // transparency of all our colors
-    private final int teamPaintAlpha = 120;
+    private int teamPaintAlpha = 120;
     public ArrayList<Paint> teamPaints;
 
     // dimensions of the a single cell in grid
@@ -36,6 +38,9 @@ public class PaintableGridView extends View {
 
     // the actual playing field with all the team IDs in each cell
     private Cell[][] teamField;
+
+    // the timer that updates the UI
+    private Timer updateUITimer;
 
     // position of the map
     float x = 0;
@@ -68,6 +73,19 @@ public class PaintableGridView extends View {
 	// initialize the different team Paints, so we can use them in the drawing process
 	initPaints();
 
+	TimerTask updateUItask = new TimerTask() {
+
+	    @Override
+	    // change the alpha so we can see if the timer works
+	    public void run() {
+		postInvalidate();
+	    }
+	};
+
+	updateUITimer = new Timer();
+
+	// don't start the timer immediately, since we want to keep the first alpha for testing
+	updateUITimer.scheduleAtFixedRate(updateUItask, 100, 100);
     }
 
     @Override
@@ -116,6 +134,7 @@ public class PaintableGridView extends View {
 	    y = screenHeight - map.getHeight() / 2;
 
 	invalidate();
+	
 	return true;
     }
 
