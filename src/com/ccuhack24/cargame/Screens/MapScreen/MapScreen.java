@@ -2,8 +2,10 @@ package com.ccuhack24.cargame.Screens.MapScreen;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,6 +22,7 @@ import com.ccuhack24.cargame.R.layout;
 import com.ccuhack24.cargame.R.menu;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -95,7 +98,6 @@ public class MapScreen extends Activity {
 	// the playing field is a 2-dimensional array which has the value of the team in each cell
 	engine = readTrack();
 	Cell[][] grid = engine.getGrid();
-	
 
 	/*
 	int[][] theField = new int[17][17];
@@ -120,6 +122,24 @@ public class MapScreen extends Activity {
 	// Inflate the menu; this adds items to the action bar if it is present.
 	getMenuInflater().inflate(R.menu.map_screen, menu);
 	return true;
+    }
+
+    public ArrayList<File> readDirectory() {
+	ArrayList<File> fileList = new ArrayList<File>();
+	String externalStorageDirectory = Environment
+		.getExternalStorageDirectory().toString();
+	String myDir = externalStorageDirectory + "/AngryCars/";
+
+	String searchString = ".json";
+	File dir = new File(myDir);
+	for (File file : dir.listFiles()) {
+	    String fileName = file.getName();
+	    // x01 is version of backup
+	    if (fileName.contains(searchString)) {
+		fileList.add(file);
+	    }
+	}
+	return fileList;
     }
 
 }
