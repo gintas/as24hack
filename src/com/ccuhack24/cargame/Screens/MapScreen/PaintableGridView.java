@@ -27,7 +27,7 @@ public class PaintableGridView extends View {
 
     private static final int INTERVAL = 500;
     // transparency of all our colors
-    private int teamPaintAlpha = 120;
+    private int teamPaintAlpha = 30;
     public ArrayList<Paint> teamPaints;
     private Paint markerPaint;
 
@@ -127,8 +127,9 @@ public class PaintableGridView extends View {
 		float currentY = y - map.getHeight() / 2 + j * cellHeight;
 
 		// now draw the colored rectangle
-		canvas.drawRect(currentX, currentY, currentX + cellWidth,
-			currentY + cellHeight, currentPaint);
+//		canvas.drawRect(currentX, currentY, currentX + cellWidth,
+//			currentY + cellHeight, currentPaint);
+		canvas.drawCircle(currentX, currentY, cellWidth, currentPaint);
 
 	    }
 	
@@ -203,7 +204,7 @@ public class PaintableGridView extends View {
 
 	markerPaint = new Paint();
 	markerPaint.setColor(Color.BLACK);
-	markerPaint.setAlpha(teamPaintAlpha);
+	markerPaint.setAlpha(255);
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
