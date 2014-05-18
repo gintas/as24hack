@@ -83,13 +83,11 @@ public class GridUpdater {
 		ArrayList<GridPoint> newPositions = new ArrayList<GridPoint>();
 		for (int i = 0; i < rawEntries.size(); i++) {
 			List<Entry> entryList = rawEntries.get(i);
-			if (t < entryList.size()) {
-				Entry entry = entryList.get(t);
-				GridPoint p = entryPosition(entry);
-				newPositions.add(p);
-				engine.insertPoint(p.y, p.x, i+1);
-				events.fireEvents(entry);
-			}
+			Entry entry = entryList.get(t % entryList.size());
+			GridPoint p = entryPosition(entry);
+			newPositions.add(p);
+			engine.insertPoint(p.y, p.x, i+1);
+			events.fireEvents(entry);
 		}
 		t++;
 		engine.step(1);

@@ -57,7 +57,7 @@ public class PaintableGridView extends View {
 	updater = new GridUpdater(getResources());
 	updater.importTrack(R.raw.car1);
 	updater.importTrack(R.raw.car2);
-	updater.importTrack(R.raw.car3);
+	updater.importTrack(R.raw.car4);
 	teamField = updater.setUpGrid(50, 50);
 	updater.step();
 	
