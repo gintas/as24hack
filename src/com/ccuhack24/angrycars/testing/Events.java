@@ -35,7 +35,7 @@ public class Events {
 			players.add(maxSpeed(entry.speed, entry.player));
 			eventQueue.add("New max speed: " + entry.speed + " by player " + entry.player.getName());
 		}
-		mostAgressive(entry);
+		//mostAgressive(entry);
 		
 		return players;
 	}
@@ -61,23 +61,24 @@ public class Events {
 		}	
 
 
-		if (mostAggressive.getAgressivity() < currentplayer.getAgressivity()) {
+		/*if (mostAggressive.getAgressivity() < currentplayer.getAgressivity()) {
 			mostAggressive=currentplayer;
 		}
 		
 		allplayer.remove(currentplayer);
 		allplayer.add(currentplayer);
-		return allplayer;	
+		return allplayer;*/	
 	}
 	
 	public static List<String> mostAggressiveRanking() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("A");
-		list.add("B");
-		list.add("C");
-		list.add("D");
-		list.add("E");
+		list.add("5 - 65433");
+		list.add("3 - 60232");
+		list.add("2 - 58323");
+		list.add("27 - 54322");
+		list.add("27 - 52322");
 		return list;
 	}
 	
 }
+

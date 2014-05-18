@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ranking_bg5"
+    tools:context=".MapScreen" >
+
+    <RelativeLayout
+        android:id="@+id/rankingScreen_center"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true" >
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rankingScreen_good_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rankingScreen_center"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/rankingScreen_good_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/ranking_screen_good_header"
+            android:textSize="40sp"
+            android:textStyle="italic"
+            android:typeface="serif" />
+
+        <ImageView
+            android:id="@+id/rankingScreen_good_icon"
+            android:layout_width="260dp"
+            android:layout_height="260dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/anyStringValue"
+            android:src="@drawable/angel_logo3" />
+
+        <ListView
+            android:id="@+id/rankingScreen_good_list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="120dp"
+            android:layout_toRightOf="@+id/rankingScreen_good_icon" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/linex1"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/rankingScreen_center"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/line2"
+        android:contentDescription="@string/anyStringValue" />
+
+    <RelativeLayout
+        android:id="@+id/rankingScreen_bad_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linex1" >
+
+        <TextView
+            android:id="@+id/rankingScreen_bad_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/ranking_screen_bad_header"
+            android:textSize="40sp"
+            android:textStyle="italic"
+            android:typeface="serif" />
+
+        <ImageView
+            android:id="@+id/rankingScreen_bad_icon"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/anyStringValue"
+            android:src="@drawable/devil_logo3" />
+
+        <ListView
+            android:id="@+id/rankingScreen_bad_list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="120dp"
+            android:layout_toRightOf="@+id/rankingScreen_bad_icon" />
+    </RelativeLayout>
+
+</RelativeLayout>

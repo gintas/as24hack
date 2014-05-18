@@ -23,10 +23,10 @@ import com.ccuhack24.cargame.R;
 public class PaintableGridView extends View {
 
     private static final int INTERVAL = 500;
-	// transparency of all our colors
+    // transparency of all our colors
     private int teamPaintAlpha = 120;
     public ArrayList<Paint> teamPaints;
-	private Paint markerPaint;
+    private Paint markerPaint;
 
     // dimensions of the a single cell in grid
     private float cellWidth;
@@ -37,7 +37,7 @@ public class PaintableGridView extends View {
     private float screenHeight;
 
     // the actual playing field with all the team IDs in each cell
-    private Cell[][] teamField;
+    private static Cell[][] teamField;
 
     // the timer that updates the UI
     private Timer updateUITimer;
@@ -46,30 +46,34 @@ public class PaintableGridView extends View {
     float x = 0;
     float y = 0;
 
-    private GridUpdater updater;
-    
+    // need to contain this if we switch back from rankings
+    private static GridUpdater updater = null;
+
     // map is stored as an image
     private Bitmap map;
 
     public PaintableGridView(final Context context, int screenWidth,
 	    int screenHeight, Bitmap mapImg) {
 	super(context);
-	
-	updater = new GridUpdater(getResources());
-	updater.importTrack(R.raw.car1);
-	updater.importTrack(R.raw.car2);
-	updater.importTrack(R.raw.car4);
-	teamField = updater.setUpGrid(50, 50);
-	updater.step();
-	
+
+	if (updater == null) {
+	    updater = new GridUpdater(getResources());
+	    updater.importTrack(R.raw.car1);
+	    updater.importTrack(R.raw.car2);
+	    updater.importTrack(R.raw.car4);
+	    updater.importTrack(R.raw.car5);
+	    teamField = updater.setUpGrid(50, 50);
+	    updater.step();
+	}
+
 	float numberOfCellsX = 50;
 	float numberOfCellsY = 50;
 
 	this.screenWidth = screenWidth;
 	this.screenHeight = screenHeight;
 
-	map = getResizedBitmap(mapImg, mapImg.getHeight() * 4,
-		mapImg.getWidth() * 4);
+	map = getResizedBitmap(mapImg, (int) (mapImg.getHeight() * 3.5),
+		(int) (mapImg.getWidth() * 3.5));
 
 	// TODO: use square cells
 	cellWidth = map.getWidth() / numberOfCellsX;
@@ -86,8 +90,8 @@ public class PaintableGridView extends View {
 	    @Override
 	    // change the alpha so we can see if the timer works
 	    public void run() {
-    		updater.step();
-	    	postInvalidate();
+		updater.step();
+		postInvalidate();
 	    }
 	};
 
@@ -98,13 +102,14 @@ public class PaintableGridView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 	Queue<String> queue = Events.getEventString();
-	while(!queue.isEmpty()){
-		Toast toast = Toast.makeText(getContext(), queue.poll(), Toast.LENGTH_LONG);
-		toast.show();	    		
+	while (!queue.isEmpty()) {
+	    Toast toast = Toast.makeText(getContext(), queue.poll(),
+		    Toast.LENGTH_LONG);
+	    toast.show();
 	}
-    	
+
 	canvas.drawColor(Color.BLUE);//To make background 
-	
+
 	canvas.drawBitmap(map, x - (map.getWidth() / 2), y
 		- (map.getHeight() / 2), null);
 
@@ -123,17 +128,17 @@ public class PaintableGridView extends View {
 			currentY + cellHeight, currentPaint);
 
 	    }
-	
-//	List<GridPoint> lastPos = updater.lastPos();
-//	for (int i = 0; i < lastPos.size(); i++) {
-//		GridPoint pos = lastPos.get(i);
-//
-//		float currentX = x - map.getWidth() / 2 + pos.x * cellWidth;
-//		float currentY = y - map.getHeight() / 2 + pos.y * cellHeight;
-//
-//		canvas.drawRect(currentX, currentY, currentX + cellWidth,
-//				currentY + cellHeight, markerPaint);
-//	}
+
+	//	List<GridPoint> lastPos = updater.lastPos();
+	//	for (int i = 0; i < lastPos.size(); i++) {
+	//		GridPoint pos = lastPos.get(i);
+	//
+	//		float currentX = x - map.getWidth() / 2 + pos.x * cellWidth;
+	//		float currentY = y - map.getHeight() / 2 + pos.y * cellHeight;
+	//
+	//		canvas.drawRect(currentX, currentY, currentX + cellWidth,
+	//				currentY + cellHeight, markerPaint);
+	//	}
 
 	super.onDraw(canvas);
     }
@@ -159,7 +164,7 @@ public class PaintableGridView extends View {
 	    y = screenHeight - map.getHeight() / 2;
 
 	invalidate();
-	
+
 	return true;
     }
 
@@ -191,10 +196,10 @@ public class PaintableGridView extends View {
 	teamPaints.add(tmpPaint);
 
 	tmpPaint = new Paint();
-	tmpPaint.setColor(Color.CYAN);
+	tmpPaint.setColor(Color.BLUE);
 	tmpPaint.setAlpha(teamPaintAlpha);
 	teamPaints.add(tmpPaint);
-	
+
 	markerPaint = new Paint();
 	markerPaint.setColor(Color.BLACK);
     }

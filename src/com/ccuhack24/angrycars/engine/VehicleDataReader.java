@@ -9,8 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.ccuhack24.angrycars.testing.Player;
 
 public class VehicleDataReader {
