@@ -1,6 +1,7 @@
 package com.ccuhack24.cargame.Screens.MapScreen;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -11,11 +12,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
+import com.ccuhack24.angrycars.engine.GridPoint;
 import com.ccuhack24.angrycars.engine.GridUpdater;
 import com.ccuhack24.angrycars.testing.Events;
 import com.ccuhack24.cargame.R;
@@ -128,19 +131,18 @@ public class PaintableGridView extends View {
 			currentY + cellHeight, currentPaint);
 
 	    }
+	
+		List<GridPoint> lastPos = updater.lastPos();
+		for (int i = 0; i < lastPos.size(); i++) {
+			GridPoint pos = lastPos.get(i);
+			// note: x and y are swapped
+			float currentX = x - map.getWidth() / 2 + pos.y * cellWidth;
+			float currentY = y - map.getHeight() / 2 + pos.x * cellHeight;
+			canvas.drawRect(currentX, currentY, currentX + cellWidth,
+					currentY + cellHeight, markerPaint);
+		}
 
-	//	List<GridPoint> lastPos = updater.lastPos();
-	//	for (int i = 0; i < lastPos.size(); i++) {
-	//		GridPoint pos = lastPos.get(i);
-	//
-	//		float currentX = x - map.getWidth() / 2 + pos.x * cellWidth;
-	//		float currentY = y - map.getHeight() / 2 + pos.y * cellHeight;
-	//
-	//		canvas.drawRect(currentX, currentY, currentX + cellWidth,
-	//				currentY + cellHeight, markerPaint);
-	//	}
-
-	super.onDraw(canvas);
+		super.onDraw(canvas);
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -202,6 +204,7 @@ public class PaintableGridView extends View {
 
 	markerPaint = new Paint();
 	markerPaint.setColor(Color.BLACK);
+	markerPaint.setAlpha(teamPaintAlpha);
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newHeight, int newWidth) {
