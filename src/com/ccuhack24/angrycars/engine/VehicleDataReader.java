@@ -27,14 +27,18 @@ public class VehicleDataReader {
 			String timestamp = obj.getString("recorded_at");
 			double lat = obj.getDouble("latitude");
 			double longitude = obj.getDouble("longitude");
-			result.add(new Entry(lat, longitude));
+			
+			Entry entry = new Entry(timestamp, lat, longitude);
 			if (obj.has("GPS_SPEED")) {
 				JSONObject speedO = obj.getJSONObject("GPS_SPEED");
 				long speed = speedO.getLong("1");
-				result.add(new Entry(lat, longitude, speed));
-			} else {
-				result.add(new Entry(lat, longitude));
+				entry.speed = speed;
 			}
+			if (obj.has("DIO_IGNITION")) {
+				boolean ignition = obj.getBoolean("DIO_IGNITION");
+				entry.ignition = ignition;
+			}
+			result.add(entry);
 		}
 		Collections.reverse(result);
 		return result;
@@ -88,18 +92,13 @@ public class VehicleDataReader {
 		public final String timestamp;
 		public final double latitude;
 		public final double longitude;
-		public final double speed;
-		public final boolean ignition;
+		public double speed = 0;
+		public boolean ignition = false;
 		
-		public Entry(String timestamp, double latitude, double longitude,
-				double speed, boolean ignition) {
+		public Entry(String timestamp, double lat, double longitude) {
 			this.timestamp = timestamp;
-			this.latitude = latitude;
+			this.latitude = lat;
 			this.longitude = longitude;
-			this.speed = speed;
-			this.ignition = ignition;
-		}
-		
-		
+		}		
 	}
 }
