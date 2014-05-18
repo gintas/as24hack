@@ -1,7 +1,6 @@
 package com.ccuhack24.cargame.Screens.MapScreen;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,13 +11,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
-import com.ccuhack24.angrycars.engine.GridPoint;
 import com.ccuhack24.angrycars.engine.GridUpdater;
 import com.ccuhack24.angrycars.testing.Events;
 import com.ccuhack24.cargame.R;
