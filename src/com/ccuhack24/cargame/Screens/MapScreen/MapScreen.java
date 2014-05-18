@@ -30,6 +30,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.View;
@@ -40,7 +41,6 @@ public class MapScreen extends Activity {
 
     public Canvas theCanvas;
     public RelativeLayout theGrid;
-    public com.ccuhack24.angrycars.engine.Engine engine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
