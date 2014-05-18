@@ -3,7 +3,6 @@ package com.ccuhack24.angrycars.engine;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -11,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+
+import com.ccuhack24.angrycars.testing.Player;
 
 public class VehicleDataReader {
     private final JSONArray json;
@@ -41,12 +42,14 @@ public class VehicleDataReader {
 			if (obj.has("MDI_OBD_MILEAGE")) {
 				JSONObject mileage0 = obj.getJSONObject("MDI_OBD_MILEAGE");
 				long mileage = mileage0.getLong("1");
+				Log.i("mileage", String.valueOf(mileage));
 				entry.mileage = mileage;
 			}
 			if (obj.has("DIO_IGNITION")) {
 				boolean ignition = obj.getBoolean("DIO_IGNITION");
 				entry.ignition = ignition;
 			}
+			
 			result.add(entry);
 		}
 		Collections.reverse(result);
@@ -98,6 +101,7 @@ public class VehicleDataReader {
 	}
 
 	public static class Entry {
+		public Player player;
 		public Calendar timestamp;
 		public long mileage = 0;
 		public final double latitude;
