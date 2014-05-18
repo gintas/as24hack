@@ -61,6 +61,7 @@ public class PaintableGridView extends View {
 	map = getResizedBitmap(mapImg, mapImg.getHeight() * 4,
 		mapImg.getWidth() * 4);
 
+	// TODO: use square cells
 	cellWidth = map.getWidth() / numberOfCellsX;
 	cellHeight = map.getHeight() / numberOfCellsY;
 
