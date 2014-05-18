@@ -11,6 +11,7 @@ import android.content.res.Resources;
 
 import com.ccuhack24.angrycars.engine.Engine.Cell;
 import com.ccuhack24.angrycars.engine.VehicleDataReader.Entry;
+import com.ccuhack24.angrycars.testing.Events;
 
 public class GridUpdater {
 
@@ -21,6 +22,7 @@ public class GridUpdater {
 	private double xCellSize;
 	int t = 0;
 	private Engine engine;
+	private Events events = new Events();
 
 	public GridUpdater(Resources resources) {
 		this.resources = resources;
@@ -36,7 +38,7 @@ public class GridUpdater {
 		List<Entry> entries;
 		try {
 		    VehicleDataReader r = new VehicleDataReader(data);
-		    entries = r.parse();
+		    entries = r.parse(resourceId);
 		} catch (JSONException e) {
 		    throw new IllegalStateException(e);
 		}
@@ -83,6 +85,7 @@ public class GridUpdater {
 				Entry entry = entryList.get(t);
 				GridPoint p = entryPosition(entry);
 				engine.insertPoint(p.y, p.x, i+1);
+				events.fireEvents(entry);
 			}
 		}
 		t++;
