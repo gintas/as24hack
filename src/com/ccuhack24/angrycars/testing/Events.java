@@ -27,14 +27,5 @@ public class Events {
 		allplayer.add(curentplayer);
 		return allplayer;	
 	}
-
-	private Date parseTimeStamp(String s)
-	{	
-		Date date = new Date(Integer.parseInt(s.substring(0,3)), 
-				Integer.parseInt(s.substring(5,6)), Integer.parseInt(s.substring(8,9)), 
-				Integer.parseInt(s.substring(11,12)), Integer.parseInt(s.substring(14,15)), 
-				Integer.parseInt(s.substring(17,18)));
-		return date;			
-	}
 	
 }
