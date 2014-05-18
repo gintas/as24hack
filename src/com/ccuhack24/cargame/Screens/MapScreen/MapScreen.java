@@ -124,22 +124,4 @@ public class MapScreen extends Activity {
 	return true;
     }
 
-    public ArrayList<File> readDirectory() {
-	ArrayList<File> fileList = new ArrayList<File>();
-	String externalStorageDirectory = Environment
-		.getExternalStorageDirectory().toString();
-	String myDir = externalStorageDirectory + "/AngryCars/";
-
-	String searchString = ".json";
-	File dir = new File(myDir);
-	for (File file : dir.listFiles()) {
-	    String fileName = file.getName();
-	    // x01 is version of backup
-	    if (fileName.contains(searchString)) {
-		fileList.add(file);
-	    }
-	}
-	return fileList;
-    }
-
 }

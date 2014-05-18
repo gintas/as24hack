@@ -85,19 +85,21 @@ public class VehicleDataReader {
 	}
 
 	public static class Entry {
-
+		public final String timestamp;
 		public final double latitude;
 		public final double longitude;
-		public final long speed;
+		public final double speed;
+		public final boolean ignition;
 		
-		public Entry(double lat, double longitude) {
-			this(lat, longitude, 0);
-		}
-
-		public Entry(double lat, double longitude, long speed) {
-			this.latitude = lat;
+		public Entry(String timestamp, double latitude, double longitude,
+				double speed, boolean ignition) {
+			this.timestamp = timestamp;
+			this.latitude = latitude;
 			this.longitude = longitude;
 			this.speed = speed;
+			this.ignition = ignition;
 		}
+		
+		
 	}
 }
