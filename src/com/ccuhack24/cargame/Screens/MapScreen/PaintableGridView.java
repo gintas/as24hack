@@ -4,23 +4,18 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.ccuhack24.angrycars.engine.Engine.Cell;
-
-import android.R;
 import android.content.Context;
-import android.content.res.Resources.Theme;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.util.Base64;
-import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+
+import com.ccuhack24.angrycars.engine.Engine.Cell;
+import com.ccuhack24.angrycars.engine.GridUpdater;
+import com.ccuhack24.cargame.R;
 
 public class PaintableGridView extends View {
 
@@ -46,14 +41,24 @@ public class PaintableGridView extends View {
     float x = 0;
     float y = 0;
 
+    private GridUpdater updater;
+    
     // map is stored as an image
     private Bitmap map;
 
     public PaintableGridView(Context context, int screenWidth,
-	    int screenHeight, Cell[][] field, Bitmap mapImg) {
+	    int screenHeight, Bitmap mapImg) {
 	super(context);
-	float numberOfCellsX = field.length;
-	float numberOfCellsY = field[0].length;
+	
+	updater = new GridUpdater(getResources());
+	updater.importTrack(R.raw.car1);
+	updater.importTrack(R.raw.car2);
+	updater.importTrack(R.raw.car3);
+	teamField = updater.setUpGrid(50, 50);
+	updater.step();
+	
+	float numberOfCellsX = 50;
+	float numberOfCellsY = 50;
 
 	this.screenWidth = screenWidth;
 	this.screenHeight = screenHeight;
@@ -69,29 +74,28 @@ public class PaintableGridView extends View {
 	x = screenWidth / 2;
 	y = screenHeight / 2;
 
-	teamField = field;
-
 	// initialize the different team Paints, so we can use them in the drawing process
 	initPaints();
 
 	TimerTask updateUItask = new TimerTask() {
-
 	    @Override
 	    // change the alpha so we can see if the timer works
 	    public void run() {
-		postInvalidate();
+    		updater.step();
+	    	postInvalidate();
 	    }
 	};
 
 	updateUITimer = new Timer();
 
 	// don't start the timer immediately, since we want to keep the first alpha for testing
-	updateUITimer.scheduleAtFixedRate(updateUItask, 100, 100);
+	updateUITimer.scheduleAtFixedRate(updateUItask, 500, 200);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 	canvas.drawColor(Color.BLUE);//To make background 
+	
 	canvas.drawBitmap(map, x - (map.getWidth() / 2), y
 		- (map.getHeight() / 2), null);
 

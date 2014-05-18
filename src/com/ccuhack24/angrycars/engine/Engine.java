@@ -6,7 +6,7 @@ public class Engine {
 	
 	private static final int TIME_TO_LIVE = 2;
 	private static final double TIME_TO_SPREAD = 2.0;
-	private static final double SPREAD_PROBABILITY = 0.1;
+	private static final double SPREAD_PROBABILITY = 0.2;
 	private static final double DECAY_PROBABILITY = 0.01;
 	
 	private final int maxY;
@@ -37,7 +37,8 @@ public class Engine {
 		return sb.toString();
 	}
 	
-	public void insertPoint(int x, int y, int team) {
+	public void insertPoint(int y, int x, int team) {
+		if (y < 0 || y >= maxY || x < 0 || x >= maxX) return;
 		grid[y][x].team = team;
 		grid[y][x].timeToLive = TIME_TO_LIVE;
 	}
