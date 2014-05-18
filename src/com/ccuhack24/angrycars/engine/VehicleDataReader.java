@@ -1,12 +1,16 @@
 package com.ccuhack24.angrycars.engine;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 public class VehicleDataReader {
     private final JSONArray json;
@@ -89,14 +93,25 @@ public class VehicleDataReader {
 	}
 
 	public static class Entry {
-		public final String timestamp;
+		public Calendar timestamp;
 		public final double latitude;
 		public final double longitude;
 		public double speed = 0;
 		public boolean ignition = false;
 		
+		public void setTimestamp(String s) {
+			timestamp = Calendar.getInstance();
+			timestamp.set(
+					Integer.parseInt(s.substring(0,4)), // year 
+					Integer.parseInt(s.substring(5,7)), // month 
+					Integer.parseInt(s.substring(8,10)),  // day
+					Integer.parseInt(s.substring(11,13)), // hour 
+					Integer.parseInt(s.substring(14,16)),  // minute
+					Integer.parseInt(s.substring(17,19))); //second
+		}
+
 		public Entry(String timestamp, double lat, double longitude) {
-			this.timestamp = timestamp;
+			setTimestamp(timestamp);
 			this.latitude = lat;
 			this.longitude = longitude;
 		}		
