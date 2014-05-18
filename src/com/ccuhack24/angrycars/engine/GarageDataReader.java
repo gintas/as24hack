@@ -42,11 +42,10 @@ public class GarageDataReader {
 			List<Garage> garages = garageDataReader.getGaragesInCloseVicinity();
 			boolean update = false;
 			for (Garage garage : garages) {
-				// TODO ...
 				if (!capturedGarages.containsKey(garage.id)
 						|| capturedGarages.get(garage.id).getId()
 								.equals(player.getId())) {
-					Events.addEventString("Player " + player.getName() + " captures "
+					Events.addEventString(player.getName() + " captures "
 							+ garage.name);
 					capturedGarages.put(garage.id, player);
 					if (scores.containsKey(player))
@@ -57,7 +56,6 @@ public class GarageDataReader {
 				}
 			}
 			if (update) {
-				// TODO ...
 				String s = "Scores:";
 				for (Player person : scores.keySet()) {
 					s += "\n" + person.getName() + ": " + scores.get(person);

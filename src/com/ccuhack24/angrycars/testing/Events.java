@@ -33,7 +33,7 @@ public class Events {
 		if (maxSpeed(entry.speed, entry.player) !=null) {
 			players.remove(maxSpeed(entry.speed, entry.player));
 			players.add(maxSpeed(entry.speed, entry.player));
-			eventQueue.add("New max speed: " + entry.speed + " km/h by player " + entry.player.getName());
+			eventQueue.add("New max speed: " + entry.speed + " km/h by " + entry.player.getName());
 		}
 		//mostAgressive(entry);
 		

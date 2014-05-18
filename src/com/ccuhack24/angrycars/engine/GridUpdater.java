@@ -2,8 +2,10 @@ package com.ccuhack24.angrycars.engine;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -28,6 +30,19 @@ public class GridUpdater {
 	private Engine engine;
 	private Events events = new Events();
 	private Set<Player> players = new HashSet<Player>();
+	private List<String> angryDrivers = new ArrayList<String> (
+		Arrays.asList(
+			"Gintautas Miliauskas", 
+			"Dirk Gomez", 
+			"Adeel Naveed", 
+			"Sergiu Soima",
+			"Dominik Eggert", 
+			"Chaoran Chen", 
+			"Arian Avini", 
+			"Jan Wähler", 
+			"Muhammad Tala", 
+			"Boris Danne"));
+	Random myRandomizer = new Random();
 
 	public GridUpdater(Resources resources) {
 		this.resources = resources;
@@ -41,7 +56,9 @@ public class GridUpdater {
 		s.close();
 
 		List<Entry> entries;
-		Player player = new Player ("" + resourceId, "" + resourceId, 0, 0);
+		Player player = new Player (
+			angryDrivers.get(myRandomizer.nextInt(angryDrivers.size())),
+			"" + resourceId, 0, 0);
 		players.add(player);
 		
 		try {
