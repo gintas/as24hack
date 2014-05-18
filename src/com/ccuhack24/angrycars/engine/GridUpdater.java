@@ -21,6 +21,7 @@ public class GridUpdater {
 	private final Resources resources;
 	private Rectangle bounds;
 	List<List<Entry>> rawEntries = new ArrayList<List<Entry>>();
+	List<GridPoint> lastPos = new ArrayList<GridPoint>();
 	private double yCellSize;
 	private double xCellSize;
 	int t = 0;
@@ -86,16 +87,25 @@ public class GridUpdater {
 	}
 	
 	public void step() {
+		ArrayList<GridPoint> newPositions = new ArrayList<GridPoint>();
 		for (int i = 0; i < rawEntries.size(); i++) {
 			List<Entry> entryList = rawEntries.get(i);
-			if (t < entryList.size()) {
-				Entry entry = entryList.get(t);
-				GridPoint p = entryPosition(entry);
-				engine.insertPoint(p.y, p.x, i+1);
-				players = events.fireEvents(entry, players);
-			}
+			Entry entry = entryList.get(t % entryList.size());
+			GridPoint p = entryPosition(entry);
+			newPositions.add(p);
+			engine.insertPoint(p.y, p.x, i+1);
+			players = events.fireEvents(entry, players);
 		}
 		t++;
 		engine.step(1);
+		synchronized (this) {
+			lastPos = newPositions;
+		}
+	}
+	
+	public List<GridPoint> lastPos() {
+		synchronized (this) {
+			return lastPos;
+		}
 	}
 }
