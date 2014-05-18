@@ -33,6 +33,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.ccuhack24.angrycars.testing.Events;
 
 public class MapScreen extends Activity {
 
@@ -58,7 +59,9 @@ public class MapScreen extends Activity {
     private Engine readTrack() {
 	List<Entry> car1 = readTrackEntries(R.raw.car1);
 	List<Entry> car2 = readTrackEntries(R.raw.car2);
-
+	Events car1Events = new Events();
+	Events car2Events = new Events();
+	
 	Rectangle bounds = VehicleDataReader.findBounds(car1);
 	Rectangle bounds2 = VehicleDataReader.findBounds(car2);
 	bounds.expand(bounds2);
@@ -75,6 +78,8 @@ public class MapScreen extends Activity {
 	    e.insertPoint(team1.x, team1.y, 1);
 	    e.insertPoint(team2.x, team2.y, 2);
 	    e.step(1);
+	    //car1Events.fireEvents(car1.get(i));
+	    car2Events.fireEvents(car2.get(i));
 	    // TODO: update display and wait here
 	}
 	return e;
