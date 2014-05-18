@@ -1,13 +1,33 @@
 package com.ccuhack24.angrycars.testing;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+
+import android.util.Log;
+
+import com.ccuhack24.angrycars.engine.VehicleDataReader.Entry;
 
 public class Events {
 
+	private static BlockingQueue<String> eventQueue;
+	
+	public static Queue<String> getEventString(){
+		return eventQueue;
+	}
+
+	public static void addEventString(String newEvent){
+		eventQueue.add(newEvent);
+		Log.i("Event", "Added " + newEvent);
+	}
+
 	private Player maxSpeed;
 	private Player mostAgressive;
+	
+	public void fireEvents(Entry entry) {
+		// TODO: add push notification to 
+		addEventString("Aufpassen!!");
+	}
 	
 	public Player maxSpeed(long speed,Player player)
 	{
@@ -26,15 +46,6 @@ public class Events {
 		allplayer.remove(curentplayer);
 		allplayer.add(curentplayer);
 		return allplayer;	
-	}
-
-	private Date parseTimeStamp(String s)
-	{	
-		Date date = new Date(Integer.parseInt(s.substring(0,3)), 
-				Integer.parseInt(s.substring(5,6)), Integer.parseInt(s.substring(8,9)), 
-				Integer.parseInt(s.substring(11,12)), Integer.parseInt(s.substring(14,15)), 
-				Integer.parseInt(s.substring(17,18)));
-		return date;			
 	}
 	
 }
