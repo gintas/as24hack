@@ -29,7 +29,7 @@ public class VehicleDataReader {
 			if (obj.isNull("recorded_at") || obj.isNull("latitude") || obj.isNull("longitude")) {
 				continue;
 			}
-			// TODO: parse timestamp properly
+
 			String timestamp = obj.getString("recorded_at");
 			double lat = obj.getDouble("latitude");
 			double longitude = obj.getDouble("longitude");
@@ -37,14 +37,19 @@ public class VehicleDataReader {
 			Entry entry = new Entry(timestamp, lat, longitude);
 			if (obj.has("GPS_SPEED")) {
 				JSONObject speedO = obj.getJSONObject("GPS_SPEED");
-				long speed = speedO.getLong("1");
+				long speed = Math.round(Double.valueOf(speedO.getString("1")) / 539.956803456);
+				Log.i("foo", "Speed in km/h" + speed);
 				entry.speed = speed;
 			}
 			if (obj.has("MDI_OBD_MILEAGE")) {
 				JSONObject mileage0 = obj.getJSONObject("MDI_OBD_MILEAGE");
 				long mileage = mileage0.getLong("1");
-				Log.i("mileage", String.valueOf(mileage));
 				entry.mileage = mileage;
+			}
+			if (obj.has("MDI_OBD_RPM")) {
+				JSONObject rpm0 = obj.getJSONObject("MDI_OBD_RPM");
+				long rpm = rpm0.getLong("1");
+				entry.rpm = rpm;
 			}
 			if (obj.has("DIO_IGNITION")) {
 				boolean ignition = obj.getBoolean("DIO_IGNITION");
@@ -107,8 +112,9 @@ public class VehicleDataReader {
 		public long mileage = 0;
 		public final double latitude;
 		public final double longitude;
-		public double speed = 0;
+		public long speed = 0;
 		public boolean ignition = false;
+		public long rpm = 0;
 		
 		public void setTimestamp(String s) {
 			timestamp = Calendar.getInstance();

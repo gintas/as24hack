@@ -95,6 +95,7 @@ public class GridUpdater {
 			newPositions.add(p);
 			engine.insertPoint(p.y, p.x, i+1);
 			players = events.fireEvents(entry, players);
+			GarageDataReader.checkGarageEvent(entry, entry.player);
 		}
 		t++;
 		engine.step(1);
