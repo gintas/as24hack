@@ -1,5 +1,6 @@
 package com.ccuhack24.angrycars.testing;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -26,22 +27,14 @@ public class Events {
 		allplayer.add(curentplayer);
 		return allplayer;	
 	}
-	/**
-	 * returns double[3]: 0-year
-	 * 					  1-month
-	 * 					  2-day
-	 * 
-	 */
-	private double[3] parseTimeStamp(String s)
+
+	private Date parseTimeStamp(String s)
 	{	
-		int[] parseDate= new int[6];
-		int i; 
-		for(in i )
-		parseDate[0]=s.substring(s.indexOf("123456789"),s.indexOf+3 );
-		Date date = new Date(year, month, day, hour, minute, second)
-		double[] date = new double[3];
-		return null;
-				
+		Date date = new Date(Integer.parseInt(s.substring(0,3)), 
+				Integer.parseInt(s.substring(5,6)), Integer.parseInt(s.substring(8,9)), 
+				Integer.parseInt(s.substring(11,12)), Integer.parseInt(s.substring(14,15)), 
+				Integer.parseInt(s.substring(17,18)));
+		return date;			
 	}
 	
 }
