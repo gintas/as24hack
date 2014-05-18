@@ -29,8 +29,7 @@ public class GarageDataReader {
 	 */
 	public static final Map<Player, Integer> scores = new HashMap<Player, Integer>();
 
-	public static void checkGarageEvent(Entry entry, Player player)
-			throws IOException, JSONException {
+	public static void checkGarageEvent(Entry entry, Player player){
 		try {
 			URL url = new URL(
 					"http://werkstatt.autoscout24.de/api/v2/garagesearch/list/directory?lat="
