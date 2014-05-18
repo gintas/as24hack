@@ -1,13 +1,33 @@
 package com.ccuhack24.angrycars.testing;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+
+import android.util.Log;
+
+import com.ccuhack24.angrycars.engine.VehicleDataReader.Entry;
 
 public class Events {
 
+	private static BlockingQueue<String> eventQueue;
+	
+	public static Queue<String> getEventString(){
+		return eventQueue;
+	}
+
+	public static void addEventString(String newEvent){
+		eventQueue.add(newEvent);
+		Log.i("Event", "Added " + newEvent);
+	}
+
 	private Player maxSpeed;
 	private Player mostAgressive;
+	
+	public void fireEvents(Entry entry) {
+		// TODO: add push notification to 
+		addEventString("Aufpassen!!");
+	}
 	
 	public Player maxSpeed(long speed,Player player)
 	{
